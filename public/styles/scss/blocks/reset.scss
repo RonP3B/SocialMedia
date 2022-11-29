@@ -1,0 +1,22 @@
+html {
+  font-size: calc(16px + 0.390625vw);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: $cyan;
+
+  &:hover {
+    color: $cyan;
+  }
+}
+
+p {
+  margin: 0;
+}

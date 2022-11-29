@@ -1,0 +1,44 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Roniell Pérez" />
+    <meta name="description" content="Social media webapp" />
+    {{! <link rel="shortcut icon" href="/assets/images/" /> }}
+    <link
+      rel="stylesheet"
+      href="/styles/css/libs/bootstrap/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/styles/css/styles.css" />
+
+    {{#if toastify}}
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      />
+    {{/if}}
+
+    <title>Social Media</title>
+  </head>
+
+  <body>
+    {{{body}}}
+  </body>
+
+  <script src="/js/libs/bootstrap/bootstrap.min.js"></script>
+
+  {{#if toastify}}
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+  {{/if}}
+
+  {{#if script}}
+    <script src="/js/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/js/index.js" type="module"></script>
+  {{/if}}
+
+</html>
