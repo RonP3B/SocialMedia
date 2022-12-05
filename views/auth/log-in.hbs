@@ -1,0 +1,17 @@
+<form action="/authentication" method="post" id="form-login">
+  <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" />
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div>
+    <button type="button" class="btn btn-primary" id="btn-login">log in</button>
+    <a href="/authentication/sign-up" class="btn btn-warning">sign up</a>
+    <a href="/authentication/reset-password" class="btn btn-danger">reset
+      password</a>
+  </div>
+</form>

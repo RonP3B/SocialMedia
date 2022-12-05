@@ -1,4 +1,5 @@
-const home = require("../routes/home");
+const homeRouter = require("../routes/home");
+const authRouter = require("../routes/auth");
 const notFoundRouter = require("../routes/notFound");
 
-module.exports = { home, notFoundRouter };
+module.exports = { homeRouter, authRouter, notFoundRouter };

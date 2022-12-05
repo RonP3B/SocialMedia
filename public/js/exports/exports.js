@@ -1,4 +1,4 @@
-import { validateForm } from "../helpers/validateForm.js";
-import { prenventNonNumeric } from "../helpers/preventNonNumeric.js";
+import { isFormEmpty } from "../helpers/isFormEmpty.js";
+import { validateSignUp } from "../helpers/custom/validateSignUp.js";
 
-export { validateForm, prenventNonNumeric };
+export { isFormEmpty, validateSignUp };

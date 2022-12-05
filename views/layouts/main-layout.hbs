@@ -11,34 +11,51 @@
       href="/styles/css/libs/bootstrap/bootstrap.min.css"
     />
     <link rel="stylesheet" href="/styles/css/styles.css" />
-
-    {{#if toastify}}
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-      />
-    {{/if}}
-
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <title>Social Media</title>
   </head>
-
   <body>
     {{{body}}}
   </body>
-
+  {{! ====================== boostrap ====================== }}
   <script src="/js/libs/bootstrap/bootstrap.min.js"></script>
 
-  {{#if toastify}}
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/toastify-js"
-    ></script>
+  {{! ====================== jquery ====================== }}
+  <script src="/js/libs/jquery/jquery-3.6.0.min.js"></script>
+
+  {{! ====================== toastify ====================== }}
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/toastify-js"
+  ></script>
+
+  {{! ====================== inputmask ====================== }}
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"
+  ></script>
+
+  {{! ====================== backendToastify ====================== }}
+  {{#if hasMessages}}
+
+    <script src="/js/backendToast.js"></script>
+
+    {{#each errorMessages}}
+      <script type="text/javascript">
+        showBackendToast({{{json this}}}, true)
+      </script>
+    {{/each}}
+
+    {{#each successMessages}}
+      <script type="text/javascript">
+        showBackendToast({{{json this}}}, false)
+      </script>
+    {{/each}}
+
   {{/if}}
 
-  {{#if script}}
-    <script src="/js/libs/jquery/jquery-3.6.0.min.js"></script>
-    <script src="/js/index.js" type="module"></script>
-  {{/if}}
-
+  <script src="/js/index.js" type="module"></script>
 </html>

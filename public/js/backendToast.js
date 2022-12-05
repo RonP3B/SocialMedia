@@ -1,9 +1,9 @@
-export const showToast = (toastMsg) => {
+const showBackendToast = (toastMsg, isError) => {
   Toastify({
     text: toastMsg,
-    duration: 4000,
+    duration: 5000,
     style: {
-      background: "#ffb703",
+      background: isError ? "#ba181b" : "#74c69d",
       color: "white",
       fontWeight: "bold",
     },
