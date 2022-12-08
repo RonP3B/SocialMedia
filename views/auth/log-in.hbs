@@ -1,17 +1,40 @@
-<form action="/authentication" method="post" id="form-login">
-  <input name="_csrf" value="{{csrfToken}}" type="hidden" />
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" name="username" id="username" />
+<section class="container">
+  <div class="card mt-3 mb-3">
+    <div class="card-header text-center">
+      <h5 class="mb-0">Login</h5>
+    </div>
+    <div class="card-body">
+      <form action="/" method="post" id="form-login">
+        <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+        <div class="form-group mb-2">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm required"
+            name="username"
+            id="username"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="password">Password:</label>
+          <input
+            class="form-control form-control-sm required"
+            type="password"
+            name="password"
+            id="password"
+          />
+        </div>
+        <div class="buttons-container">
+          <a href="/sign-up" class="btn btn-sm btn-warning">Sign up</a>
+          <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            id="btn-login"
+          >Log in</button>
+        </div>
+        <a href="/reset-password" class="text-center d-block mt-2">Reset
+          password</a>
+      </form>
+    </div>
   </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" />
-  </div>
-  <div>
-    <button type="button" class="btn btn-primary" id="btn-login">log in</button>
-    <a href="/authentication/sign-up" class="btn btn-warning">sign up</a>
-    <a href="/authentication/reset-password" class="btn btn-danger">reset
-      password</a>
-  </div>
-</form>
+</section>

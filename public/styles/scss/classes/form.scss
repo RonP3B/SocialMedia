@@ -1,0 +1,21 @@
+.form {
+  &-img {
+    display: grid;
+    grid-template-columns: 1fr 3.5fr;
+    column-gap: 0.5rem;
+    place-items: center;
+
+    img {
+      height: 6rem;
+      border: 2px solid #000;
+      display: block;
+      width: 100%;
+    }
+
+    div:last-child {
+      display: flex;
+      height: 32.2px;
+      width: 100%;
+    }
+  }
+}

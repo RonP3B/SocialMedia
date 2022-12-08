@@ -1,42 +1,126 @@
-<form
-  action="/authentication/sign-up"
-  method="post"
-  id="form-signup"
-  enctype="multipart/form-data"
->
-  <input name="_csrf" value="{{csrfToken}}" type="hidden" />
-  <div>
-    <label for="profilePicture">profile picture</label>
-    <input type="file" name="image" id="profilePicture" />
+<section class="container">
+  <div class="card mt-3 mb-3">
+    <div class="card-header text-center">
+      <h5 class="mb-0">Sign up</h5>
+    </div>
+    <div class="card-body">
+      <form
+        action="/sign-up"
+        method="post"
+        id="form-signup"
+        enctype="multipart/form-data"
+      >
+        <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+        <div class="form-img mb-2">
+          <img
+            src="/assets/images/defaultUser.jpg"
+            alt="user"
+            id="image-added"
+          />
+          <div class="form-img-flex">
+            <div>
+              <input
+                type="file"
+                accept="image/*"
+                name="image"
+                id="add-image"
+                class="d-none"
+              />
+              <input
+                class="form-control form-control-sm required"
+                type="text"
+                id="image-name"
+                disabled
+              />
+              <label for="add-image" class="label-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                ><path
+                    fill="currentColor"
+                    d="M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2m-4.7 6H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v8.3c-.6-.2-1.3-.3-2-.3c-1.1 0-2.2.3-3.1.9L14.5 12L11 16.5l-2.5-3L5 18h8.1c-.1.3-.1.7-.1 1c0 .7.1 1.4.3 2Z"
+                  ></path>
+                </svg>
+              </label>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group mb-2">
+          <label for="name">name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="lastName">last name:</label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="phone">phone number:</label>
+          <input
+            type="tel"
+            name="phone"
+            id="phone"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="email">email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="username">username:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="password">password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="confirmPassword">confirm password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            class="form-control form-control-sm required"
+          />
+        </div>
+        <div class="buttons-container">
+          <a href="/" class="btn btn-sm btn-warning">Go back to login</a>
+          <button
+            class="btn btn-sm btn-primary"
+            type="button"
+            id="btn-signUp"
+          >sign up</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div>
-    <label for="name">name:</label>
-    <input type="text" name="name" id="name" />
-  </div>
-  <div>
-    <label for="lastName">last name:</label>
-    <input type="text" name="lastName" id="lastName" />
-  </div>
-  <div>
-    <label for="phone">phone number:</label>
-    <input type="tel" name="phone" id="phone" />
-  </div>
-  <div>
-    <label for="email">email</label>
-    <input type="email" name="email" id="email" />
-  </div>
-  <div>
-    <label for="username">username:</label>
-    <input type="text" name="username" id="username" />
-  </div>
-  <div>
-    <label for="password">password:</label>
-    <input type="password" name="password" id="password" />
-  </div>
-  <div>
-    <label for="confirmPassword">confirm password:</label>
-    <input type="password" name="confirmPassword" id="confirmPassword" />
-  </div>
-  <button class="btn btn-primary" type="button" id="btn-signUp">sign up</button>
-  <a href="/authentication">go back</a>
-</form>
+</section>

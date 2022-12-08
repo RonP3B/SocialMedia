@@ -1,16 +1,16 @@
 import { showToast } from "./showToast.js";
 
 const highlightFields = (form) => {
-  $(`#${form} input`).each(function () {
-    if ($(this).val().isEmpty()) $(this).addClass("border-danger");
-    else $(this).removeClass("border-danger");
+  $(`${form} .required`).each(function () {
+    if ($(this).val().isEmpty()) $(this).addClass("is-invalid");
+    else $(this).removeClass("is-invalid");
   });
 };
 
 const checkFields = (form) => {
   let res = true;
 
-  $(`#${form} input`).each(function () {
+  $(`${form} .required`).each(function () {
     if ($(this).val().isEmpty()) {
       res = false;
       return false;
@@ -20,12 +20,16 @@ const checkFields = (form) => {
   return res;
 };
 
-export const isFormEmpty = (form, validateFunction = false) => {
+export const isFormEmpty = (
+  form,
+  validateFunction = false,
+  msg = "All the fields must be completed."
+) => {
   highlightFields(form);
 
   if (checkFields(form)) {
-    validateFunction ? validateFunction(form) : $(`#${form}`).submit();
+    validateFunction ? validateFunction(form) : $(form).submit();
   } else {
-    showToast("All the fields must be completed.");
+    showToast(msg);
   }
 };

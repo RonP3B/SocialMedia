@@ -1,9 +1,14 @@
 const express = require("express");
 const homeController = require("../controllers/homeController");
-const redirects = require("../middlewares/redirects");
 
 const router = express.Router();
 
-router.get("/", redirects.isUnauthorized, homeController.getHome);
+router.get("/", homeController.getHome);
+router.get("/edit-post/:id", homeController.getEditPost);
+router.post("/add-post", homeController.AddPost);
+router.post("/add-comment/:id", homeController.addComment);
+router.post("/add-reply/:id", homeController.addReply);
+router.post("/edit-post", homeController.editPost);
+router.post("/delete-post", homeController.deletePost);
 
 module.exports = router;

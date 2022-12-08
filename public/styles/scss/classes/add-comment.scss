@@ -1,0 +1,15 @@
+.add-comment {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 7px;
+  border: 3px solid #eee;
+
+  textarea {
+    border: none;
+    outline: none;
+    height: 2.45rem;
+    width: 100%;
+    padding: 0.45rem 0.2rem;
+    font-size: 0.875rem;
+  }
+}

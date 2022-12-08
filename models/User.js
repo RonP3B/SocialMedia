@@ -1,13 +1,11 @@
 const Sequelize = require("sequelize");
 const { databaseObj } = require("../exports/util");
-const crypto = require("crypto");
 
 const User = databaseObj.define("user", {
   id: {
     type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true,
-    defaultValue: crypto.randomUUID(),
   },
 
   name: {
@@ -33,7 +31,6 @@ const User = databaseObj.define("user", {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
-    indexes: [{ unique: true }],
   },
 
   username: {

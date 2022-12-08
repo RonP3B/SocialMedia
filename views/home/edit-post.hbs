@@ -1,0 +1,58 @@
+<section>
+  <div class="card mt-3 mb-3">
+    <div class="card-header text-center">
+      <h5 class="mb-0">Edit post</h5>
+    </div>
+    <div class="card-body">
+      {{#if post.postImage}}
+        <picture>
+          <label class="text-center d-block">Post Image:</label>
+          <img
+            src="/assets/images/uploadedImages/{{post.postImage}}"
+            class="img-thumbnail mb-2"
+            alt="Post image"
+            id="image-added"
+          />
+        </picture>
+      {{/if}}
+      <form
+        action="/home/edit-post"
+        method="POST"
+        enctype="multipart/form-data"
+        id="form-post"
+      >
+        <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+        <input type="hidden" name="id" value="{{post.id}}" />
+        <div class="form-group mb-2">
+          <label for="add-image">{{#if post.postImage}}Edit{{else}}Add{{/if}}
+            image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            name="image"
+            id="add-image"
+            class="form-control form-control-sm post-image"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="post">Edit text:</label>
+          <textarea
+            class="form-control form-control-sm"
+            name="postText"
+            id="post-text"
+            cols="30"
+            rows="10"
+          >{{post.postText}}</textarea>
+        </div>
+        <div class="buttons-container">
+          <a href="/home" class="btn btn-sm btn-secondary">Go back</a>
+          <button
+            class="btn btn-sm btn-primary"
+            type="button"
+            id="btn-post"
+          >Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

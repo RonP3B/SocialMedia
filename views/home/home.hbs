@@ -1,1 +1,208 @@
-<h1>Ok</h1>
+<section>
+  <div class="card mt-3 mb-3">
+    <div class="card-header text-center">
+      <h5 class="mb-0">New Post</h5>
+    </div>
+    <div class="card-body">
+      <form
+        action="/home/add-post"
+        method="POST"
+        enctype="multipart/form-data"
+        id="form-post"
+      >
+        <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+        <div class="form-group mb-2">
+          <label for="add-image">Add image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            name="image"
+            class="form-control form-control-sm post-image"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="post">Write about an interesting topic:</label>
+          <textarea
+            class="form-control form-control-sm"
+            name="postText"
+            id="post-text"
+            cols="30"
+            rows="10"
+          ></textarea>
+        </div>
+        <div class="buttons-container">
+          <button
+            class="btn btn-sm btn-primary"
+            type="button"
+            id="btn-post"
+          >Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div>
+    <h1 class="text-center mt-5">My Posts</h1>
+    <div>
+      {{#each posts}}
+        <div class="card mb-3">
+          <div class="card-header post-header">
+            <picture>
+              <img
+                src="/assets/images/uploadedImages/{{this.user.profilePicture}}"
+                alt="{{this.user.username}}'s picture"
+              />
+            </picture>
+            <div>
+              <h4>{{this.user.username}}</h4>
+              <small>{{this.dataTime}}</small>
+            </div>
+          </div>
+          <div class="card-body post-body">
+            {{#if this.postText}}
+              <p class="mt-2">{{this.postText}}</p>
+            {{/if}}
+            {{#if this.postImage}}
+              <img
+                src="/assets/images/uploadedImages/{{this.postImage}}"
+                alt="post image"
+                class="img-thumbnail"
+              />
+            {{/if}}
+            <div class="buttons-container mt-3">
+              <form action="/home/delete-post" method="post" class="form-delete">
+                <input name="_csrf" value="{{../csrfToken}}" type="hidden" />
+                <input type="hidden" name="id" value="{{this.id}}">
+              </form>
+              <btn class="btn btn-sm btn-danger btn-deletePost">
+                Delete post
+              </btn>
+              <a href="/home/edit-post/{{this.id}}" class="btn btn-sm btn-warning">Edit post</a>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="accordion" id="accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{@index}}">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{@index}}"
+                    aria-expanded="false"
+                    aria-controls="collapse{{@index}}"
+                  >
+                    Comments
+                  </button>
+                </h2>
+                <div
+                  id="collapse{{@index}}"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="heading{{@index}}"
+                  data-bs-parent="#accordion"
+                >
+                  <div class="accordion-body">
+                    <form action="home/add-comment/{{this.id}}" method="POST" class="form-comment">
+                      <input name="_csrf" value="{{../csrfToken}}" type="hidden" />
+                      <label for="post-comment">Add a new comment to this post:</label>
+                      <div class="add-comment">
+                        <textarea
+                          name="postComment"
+                          id="post-comment"
+                          class="required"
+                        ></textarea>
+                        <button class="btn btn-sm btn-info btn-comment" type="button">Send</button>
+                      </div>
+                    </form>
+                    <div class="comments-section">
+                      {{#each this.comments as |comment|}}
+                        <div class="user-comment">
+                          <div class="comment-content">
+                            <img
+                              src="/assets/images/uploadedImages/{{comment.user.profilePicture}}"
+                              alt="{{comment.user.username}}'s picture"
+                              class="user-pic"
+                            />
+                            <div>
+                              <strong
+                              >{{comment.user.username}}</strong>
+                              <p>{{comment.text}}</p>
+                              <a
+                                data-bs-toggle="collapse"
+                                href="#reply{{@index}}"
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="reply"
+                                class="reply-btn"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="1em"
+                                  height="1em"
+                                  preserveAspectRatio="xMidYMid meet"
+                                  viewBox="0 0 24 24"
+                                ><path
+                                    fill="currentColor"
+                                    d="M22 4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14l4 4V4Z"
+                                  ></path></svg>
+                                reply
+                              </a>
+                            </div>
+                          </div>
+                          <div class="replies-section">
+                            <div class="collapse" id="reply{{@index}}">
+                              <form
+                                action="home/add-reply/{{comment.id}}"
+                                method="POST"
+                                class="form-reply"
+                              >
+                                <input
+                                  name="_csrf"
+                                  value="{{../../csrfToken}}"
+                                  type="hidden"
+                                />
+                                <label for="comment-reply">Add your reply:</label>
+                                <div class="add-comment">
+                                  <textarea
+                                    name="commentReply"
+                                    id="comment-reply"
+                                    class="required"
+                                  ></textarea>
+                                  <button
+                                    class="btn btn-sm btn-info btn-reply"
+                                    type="button"
+                                  >Reply</button>
+                                </div>
+                              </form>
+                            </div>
+                            {{#each comment.replies as |reply|}}
+                              <div class="comment-content">
+                                <img
+                                  src="/assets/images/uploadedImages/{{reply.user.profilePicture}}"
+                                  alt="{{reply.user.username}}'s picture"
+                                  class="user-pic"
+                                />
+                                <div>
+                                  <strong
+                                  >{{reply.user.username}}</strong>
+                                  <p>{{reply.text}}</p>
+                                </div>
+                              </div>
+                            {{/each}}
+                          </div>
+                        </div>
+                      {{else}}
+                        <h6 class="text-center">There are no comments on this post</h6>
+                      {{/each}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <h4 class="text-center">You haven't posted anything yet</h4>
+      {{/each}}
+    </div>
+  </div>
+</section>

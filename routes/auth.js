@@ -8,7 +8,7 @@ router.get("/", redirects.isAuthenticated, authController.getLogIn);
 router.get("/sign-up", authController.getSignUp);
 router.get("/reset-password", authController.getResetPassword);
 router.get("/activation/:id", authController.getActivation);
-
+router.get("/log-out", authController.getLogout);
 router.post("/", redirects.isAuthenticated, authController.postLogin);
 router.post("/sign-up", authController.postSignUp);
 router.post("/reset-password", authController.postResetPassword);

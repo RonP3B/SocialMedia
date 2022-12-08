@@ -1,0 +1,38 @@
+.comments-section {
+  font-size: calc(12px + 0.390625vw);
+
+  img {
+    height: 2.8rem;
+    width: 2.8rem;
+    border-radius: 50%;
+    border: 2px solid #000;
+    margin-right: 0.45rem;
+  }
+
+  .comment-content {
+    display: flex;
+    margin-bottom: 0.3rem;
+
+    div {
+      position: relative;
+      width: 100%;
+    }
+
+    strong {
+      display: block;
+      margin-top: 0.4rem;
+      max-width: 80%;
+    }
+  }
+
+  .replies-section {
+    margin-left: 15%;
+  }
+
+  .reply-btn {
+    position: absolute;
+    font-weight: bold;
+    top: 5px;
+    right: 0;
+  }
+}

@@ -1,5 +1,5 @@
 html {
-  font-size: calc(16px + 0.390625vw);
+  font-size: calc(14px + 0.390625vw);
 }
 
 ul {
@@ -10,13 +10,18 @@ ul {
 
 a {
   text-decoration: none;
-  color: $cyan;
-
-  &:hover {
-    color: $cyan;
-  }
 }
 
 p {
   margin: 0;
+}
+
+textarea {
+  resize: none;
+  height: 4rem;
+  @include scrollbar(gray, white, 4px);
+}
+
+.accordion-body {
+  padding: 0.35rem;
 }

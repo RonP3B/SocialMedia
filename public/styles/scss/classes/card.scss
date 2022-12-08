@@ -1,0 +1,42 @@
+.card {
+  max-width: 600px;
+  margin: 0 auto;
+
+  &-footer {
+    padding: 0;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+
+    img {
+      height: calc(4.5rem + 0.390625vw);
+      width: calc(4.5rem + 0.390625vw);
+      border-radius: 50%;
+    }
+
+    picture {
+      margin-right: 0.35rem;
+    }
+
+    h4 {
+      font-size: calc(15px + 0.390625vw);
+      margin: 0;
+    }
+
+    small {
+      font-size: calc(10px + 0.390625vw);
+      color: rgb(175, 174, 174);
+    }
+  }
+
+  .post-body {
+    img {
+      display: block;
+      margin: 0 auto;
+      height: auto;
+      max-width: 100%;
+    }
+  }
+}

@@ -10,7 +10,7 @@ exports.isAuthenticated = (req, res, next) => {
 exports.isUnauthorized = (req, res, next) => {
   if (!req.session.isAuthenticated) {
     req.flash("errors", "You need to authenticate first.");
-    return res.redirect("/authentication");
+    return res.redirect("/");
   }
 
   next();

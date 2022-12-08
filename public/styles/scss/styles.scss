@@ -1,8 +1,15 @@
 @import "./mixins/breakpoints.scss";
 @import "./mixins/scrollbar.scss";
-@import "./mixins/transition.scss";
 
 @import "./config/variables.scss";
 
 @import "./blocks/reset.scss";
 @import "./blocks/body.scss";
+
+@import "./classes/buttons-container.scss";
+@import "./classes/label-button.scss";
+@import "./classes/form.scss";
+@import "./classes/card.scss";
+@import "./classes/add-comment.scss";
+@import "./classes/comment.scss";
+@import "./classes/accordion.scss";

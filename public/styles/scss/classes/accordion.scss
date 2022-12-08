@@ -1,0 +1,7 @@
+.accordion {
+  &-body {
+    max-height: 15rem;
+    overflow: auto;
+    @include scrollbar(gray, white, 6px);
+  }
+}

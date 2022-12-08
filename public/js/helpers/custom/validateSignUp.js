@@ -18,5 +18,5 @@ export const validateSignUp = (form) => {
     return showToast("Passwords don't match.");
   }
 
-  $(`#${form}`).submit();
+  $(form).submit();
 };

@@ -31,7 +31,7 @@ exports.getActivation = async (req, res, next) => {
   try {
     await User.update({ isActive: 1 }, { where: { id } });
     req.flash("success", `Your account is active now.`);
-    res.redirect("/authentication");
+    res.redirect("/");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);
     internalErrorRes(res);
@@ -40,7 +40,7 @@ exports.getActivation = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   if (!(await isValidLogin(req, res))) {
-    return res.redirect("/authentication");
+    return res.redirect("/");
   }
 
   try {
@@ -61,7 +61,7 @@ exports.postLogin = async (req, res, next) => {
 
 exports.postSignUp = async (req, res, next) => {
   if (!(await isValidSignUp(req, res))) {
-    return res.redirect("/authentication/sign-up");
+    return res.redirect("/sign-up");
   }
 
   const { name, lastName, phone, email, username, password } = req.body;
@@ -70,6 +70,7 @@ exports.postSignUp = async (req, res, next) => {
 
   try {
     await User.create({
+      id: crypto.randomUUID(),
       name,
       lastName,
       phone,
@@ -80,7 +81,7 @@ exports.postSignUp = async (req, res, next) => {
     });
 
     req.flash("success", "The account has been successfully created.");
-    res.redirect("/authentication");
+    res.redirect("/");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);
     internalErrorRes(res);
@@ -94,7 +95,7 @@ exports.postResetPassword = async (req, res, next) => {
     const user = await User.findOne({ where: { username } });
 
     if (!isValidUser(req, user)) {
-      return res.redirect("/authentication/reset-password");
+      return res.redirect("/reset-password");
     }
 
     const newPassword = `${user.id}${crypto.randomUUID()}`;
@@ -112,9 +113,16 @@ exports.postResetPassword = async (req, res, next) => {
       "Your password was reset, and we've sent you an email with your new password."
     );
 
-    res.redirect("/authentication");
+    res.redirect("/");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);
     internalErrorRes(res);
   }
+};
+
+exports.getLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) console.log(`Session destroy error: ${err}`);
+    else res.redirect("/");
+  });
 };
