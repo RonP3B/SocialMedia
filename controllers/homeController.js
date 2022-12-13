@@ -1,23 +1,26 @@
+// ----------------------------Imports----------------------------
 const { Post, User, Comment, Reply } = require("../exports/models");
+const { internalErrorRes } = require("../exports/helpers");
 const crypto = require("crypto");
 const fs = require("fs");
-const { internalErrorRes } = require("../exports/helpers");
 
+// ----------------------------Controllers----------------------------
 exports.getHome = async (req, res, next) => {
   try {
+    // Gets all the currently logged-in user's posts
     const postsObj = await Post.findAll({
       where: { userId: req.user.id },
-      /* include: [
+      include: [
         User,
         { model: Comment, include: [User, { model: Reply, include: [User] }] },
-      ],*/
-      include: { all: true, nested: true },
+      ],
       order: [["updatedAt", "DESC"]],
     });
 
+    // Bad practice to get rid of dataValues xd
     const posts = JSON.parse(JSON.stringify(postsObj));
 
-    res.render("home/home", {
+    res.render("posts", {
       header: true,
       modal: true,
       section: "Home",
@@ -29,9 +32,10 @@ exports.getHome = async (req, res, next) => {
   }
 };
 
+// Adds a new post
 exports.AddPost = async (req, res, next) => {
   try {
-    const postText = req.body.postText;
+    const postText = req.body.postText ? req.body.postText : null;
     const imgFile = req.file;
 
     if (postText || imgFile) {
@@ -55,58 +59,8 @@ exports.AddPost = async (req, res, next) => {
   }
 };
 
-exports.addComment = async (req, res, next) => {
-  try {
-    const postId = req.params.id;
-    const comment = req.body.postComment;
-
-    if (comment) {
-      await Comment.create({
-        id: crypto.randomUUID(),
-        text: comment,
-        postId,
-        userId: req.user.id,
-      });
-
-      req.flash("success", "Comment added.");
-    } else {
-      req.flash("errors", "Form data missing.");
-    }
-
-    res.redirect("/home");
-  } catch (error) {
-    console.log(`\n*****Error*****\n${error}\n`);
-    internalErrorRes(res);
-  }
-};
-
-exports.addReply = async (req, res, next) => {
-  try {
-    const commentId = req.params.id;
-    const reply = req.body.commentReply;
-
-    if (reply) {
-      await Reply.create({
-        id: crypto.randomUUID(),
-        text: reply,
-        commentId,
-        userId: req.user.id,
-      });
-
-      req.flash("success", "Reply added.");
-    } else {
-      req.flash("errors", "Form data missing.");
-    }
-
-    res.redirect("/home");
-  } catch (error) {
-    console.log(`\n*****Error*****\n${error}\n`);
-    internalErrorRes(res);
-  }
-};
-
 exports.deletePost = async (req, res, next) => {
-  const id = req.body.id;
+  const id = req.body.id ? req.body.id : null;
 
   try {
     const post = await Post.findByPk(id);
@@ -114,6 +68,7 @@ exports.deletePost = async (req, res, next) => {
     if (post) {
       const img = post.dataValues.postImage;
 
+      // If the post has an image it gets deleted from the server
       if (img) fs.unlinkSync(`./public/assets/images/uploadedImages/${img}`);
 
       await post.destroy();
@@ -137,10 +92,15 @@ exports.getEditPost = async (req, res, next) => {
     const post = await Post.findByPk(id);
 
     if (post) {
+      const imgName = post.postImage
+        ? post.postImage.substring(post.postImage.indexOf("_") + 1)
+        : null;
+
       res.render("home/edit-post", {
         header: true,
         section: "Home",
         post: post.dataValues,
+        imgName,
       });
     } else {
       res.redirect("/home");
@@ -159,6 +119,10 @@ exports.editPost = async (req, res, next) => {
     const post = await Post.findByPk(id);
 
     if (post && (postText || imgFile)) {
+      /* 
+        If the post has an image and it will change for a new one, 
+        the current image gets deleted from the server
+      */
       if (imgFile && imgFile.filename !== post.dataValues.postImage) {
         fs.unlinkSync(
           `./public/assets/images/uploadedImages/${post.dataValues.postImage}`

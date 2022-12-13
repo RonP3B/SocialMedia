@@ -4,7 +4,7 @@
       <h5 class="mb-0">Login</h5>
     </div>
     <div class="card-body">
-      <form action="/" method="post" id="form-login">
+      <form action="/" method="post" id="form-default">
         <input name="_csrf" value="{{csrfToken}}" type="hidden" />
         <div class="form-group mb-2">
           <label for="username">Username:</label>
@@ -29,7 +29,7 @@
           <button
             type="button"
             class="btn btn-sm btn-primary"
-            id="btn-login"
+            id="btn-submit"
           >Log in</button>
         </div>
         <a href="/reset-password" class="text-center d-block mt-2">Reset

@@ -33,10 +33,6 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 0 8px 8px 0;
 }
 
-.accordion-body {
-  padding: 0.35rem;
-}
-
 body {
   font-family: "Baloo 2", cursive;
   min-width: 320px;
@@ -164,6 +160,7 @@ body {
 }
 
 .accordion-body {
+  padding: 0.35rem;
   max-height: 15rem;
   overflow: auto;
   scrollbar-width: thin;
@@ -175,6 +172,38 @@ body {
   background: white;
 }
 .accordion-body::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 0 8px 8px 0;
+}
+
+.friend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eff1f3;
+  padding: 0.2rem;
+  border-radius: 7px;
+  border: #afafaf solid 1px;
+  font-size: calc(12px + 0.390625vw);
+}
+.friend__info {
+  line-height: 1;
+}
+.friend button {
+  padding: 0.2rem;
+  font-size: 1.5rem;
+}
+
+.offcanvas-body {
+  scrollbar-width: thin;
+  scrollbar-color: gray white;
+}
+.offcanvas-body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: white;
+}
+.offcanvas-body::-webkit-scrollbar-thumb {
   background-color: gray;
   border-radius: 0 8px 8px 0;
 }

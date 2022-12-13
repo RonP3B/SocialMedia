@@ -1,10 +1,10 @@
-<section class="container">
+<section>
   <div class="card mt-3 mb-3">
     <div class="card-header text-center">
-      <h5 class="mb-0">Reset Password</h5>
+      <h5 class="mb-0">Send friendship request</h5>
     </div>
     <div class="card-body">
-      <form action="/reset-password" method="post" id="form-default">
+      <form action="/friends/add-friend" method="post" id="form-default">
         <input name="_csrf" value="{{csrfToken}}" type="hidden" />
         <div class="form-group mb-2">
           <label for="username">Username:</label>
@@ -16,12 +16,12 @@
           />
         </div>
         <div class="buttons-container">
-          <a href="/" class="btn btn-sm btn-primary">Go back to login</a>
+          <a href="/friends" class="btn btn-sm btn-secondary">Go back</a>
           <button
             type="button"
             id="btn-submit"
-            class="btn btn-sm btn-danger"
-          >Reset password</button>
+            class="btn btn-sm btn-primary"
+          >Send request</button>
         </div>
       </form>
     </div>

@@ -17,11 +17,9 @@ $(() => {
 
   Inputmask("+1 (9{3}) 9{3}-9{4}", { greedy: false }).mask("input[type=tel]");
 
+  $("#btn-submit").click(() => isFormEmpty("#form-default"));
+
   $("#btn-signUp").click(() => isFormEmpty("#form-signup", validateSignUp));
-
-  $("#btn-reset").click(() => isFormEmpty("#form-reset"));
-
-  $("#btn-login").click(() => isFormEmpty("#form-login"));
 
   $("#btn-post").click(() => isFormEmpty("#form-post", validatePost));
 
@@ -39,7 +37,15 @@ $(() => {
     showConfirmModal(
       $(this),
       ".form-delete",
-      "Are you sure you want to delete this post"
+      "Are you sure you want to delete this post?"
+    );
+  });
+
+  $(".btn-deleteFriend").click(function () {
+    showConfirmModal(
+      $(this),
+      ".form-delete",
+      "Are you sure you want to delete this friend?"
     );
   });
 });

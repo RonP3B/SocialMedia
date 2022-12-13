@@ -1,3 +1,4 @@
+// ----------------------------Imports----------------------------
 const { User } = require("../exports/models");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
@@ -9,22 +10,16 @@ const {
   isValidUser,
 } = require("../exports/helpers");
 
-exports.getLogIn = (req, res, next) => {
-  res.render("auth/log-in");
-};
+// ----------------------------Controllers----------------------------
+exports.getLogIn = (req, res, next) => res.render("auth/log-in");
+
+exports.getSignUp = (req, res, next) => res.render("auth/sign-up");
 
 exports.getResetPassword = (req, res, next) => {
-  res.render("auth/reset-password", {
-    toastify: true,
-    script: true,
-    inputMask: false,
-  });
+  res.render("auth/reset-password");
 };
 
-exports.getSignUp = (req, res, next) => {
-  res.render("auth/sign-up");
-};
-
+// Activates user whith given id
 exports.getActivation = async (req, res, next) => {
   const { id } = req.params;
 
@@ -39,12 +34,11 @@ exports.getActivation = async (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
-  if (!(await isValidLogin(req, res))) {
-    return res.redirect("/");
-  }
+  // Ends function if it's not a valid login
+  if (!(await isValidLogin(req, res))) return res.redirect("/");
 
   try {
-    const username = req.body.username;
+    const username = req.body.username ? req.body.username : null;
 
     req.session.isAuthenticated = true;
     req.session.user = username;
@@ -60,9 +54,8 @@ exports.postLogin = async (req, res, next) => {
 };
 
 exports.postSignUp = async (req, res, next) => {
-  if (!(await isValidSignUp(req, res))) {
-    return res.redirect("/sign-up");
-  }
+  // Ends the function if it's not a valid signup
+  if (!(await isValidSignUp(req, res))) return res.redirect("/sign-up");
 
   const { name, lastName, phone, email, username, password } = req.body;
   const profilePicture = req.file.filename;
@@ -88,16 +81,17 @@ exports.postSignUp = async (req, res, next) => {
   }
 };
 
+// Resets the password of the given username
 exports.postResetPassword = async (req, res, next) => {
-  const username = req.body.username;
+  const username = req.body.username ? req.body.username : null;
 
   try {
     const user = await User.findOne({ where: { username } });
 
-    if (!isValidUser(req, user)) {
-      return res.redirect("/reset-password");
-    }
+    // Ends the try-catch if it's not a valid user
+    if (!isValidUser(req, user)) return res.redirect("/reset-password");
 
+    // Create the user's id + a random id as new password
     const newPassword = `${user.id}${crypto.randomUUID()}`;
     const newPasswordSecured = await bcrypt.hash(newPassword, 12);
 
@@ -106,6 +100,7 @@ exports.postResetPassword = async (req, res, next) => {
       { where: { username } }
     );
 
+    // Send an email to the user with his new password
     sendResetPassMail(user, newPassword);
 
     req.flash(

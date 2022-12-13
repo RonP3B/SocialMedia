@@ -1,7 +1,10 @@
+// ---------------------------------imports--------------------------------------
 const User = require("../models/User");
 const internalErrorRes = require("../helpers/controllersHelpers/internalErrorRes");
 
+// -----------------------------Middleware-------------------------------
 const addReqUser = async (req, res, next) => {
+  // If there is a session
   if (req.session) {
     try {
       const username = req.session.user;

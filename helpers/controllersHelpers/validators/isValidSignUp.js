@@ -1,12 +1,15 @@
+// --------------------------imports--------------------------
 const { phoneNumberRegex, emailAdressRegex } = require("../../../util/regex");
 const { User } = require("../../../exports/models");
 const internalErrorRes = require("../internalErrorRes");
 
+// --------------------------function--------------------------
 const isValidSignUp = async (req, res) => {
   const imgFile = req.file;
   const { name, lastName, phone, email, username, password, confirmPassword } =
     req.body;
 
+  // If the user breaks the frontend validation
   if (
     !name ||
     !lastName ||
@@ -21,11 +24,13 @@ const isValidSignUp = async (req, res) => {
     return false;
   }
 
+  // If it's not a valid email (tested by a regular expression)
   if (!emailAdressRegex.test(email)) {
     req.flash("errors", "Invalid email.");
     return false;
   }
 
+  // If it's not a valid phone number (tested by a regular expression)
   if (!phoneNumberRegex.test(phone)) {
     req.flash("errors", "Invalid phone number.");
     return false;

@@ -5,9 +5,8 @@ const router = express.Router();
 
 router.get("/", homeController.getHome);
 router.get("/edit-post/:id", homeController.getEditPost);
+
 router.post("/add-post", homeController.AddPost);
-router.post("/add-comment/:id", homeController.addComment);
-router.post("/add-reply/:id", homeController.addReply);
 router.post("/edit-post", homeController.editPost);
 router.post("/delete-post", homeController.deletePost);
 

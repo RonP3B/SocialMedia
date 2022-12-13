@@ -1,0 +1,23 @@
+.friend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eff1f3;
+  padding: 0.2rem;
+  border-radius: 7px;
+  border: #afafaf solid 1px;
+  font-size: calc(12px + 0.390625vw);
+
+  &__info {
+    line-height: 1;
+  }
+
+  button {
+    padding: 0.2rem;
+    font-size: 1.5rem;
+  }
+}
+
+.offcanvas-body {
+  @include scrollbar(gray, white, 6px);
+}

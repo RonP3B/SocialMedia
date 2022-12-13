@@ -4,6 +4,7 @@ const isValidSignUp = require("../helpers/controllersHelpers/validators/isValidS
 const internalErrorRes = require("../helpers/controllersHelpers/internalErrorRes");
 const isValidLogin = require("../helpers/controllersHelpers/validators/isValidLogin");
 const isValidUser = require("../helpers/controllersHelpers/validators/isValidUser");
+const isValidFriendRequest = require("../helpers/controllersHelpers/validators/isValidFriendRequest");
 
 module.exports = {
   internalErrorRes,
@@ -12,4 +13,5 @@ module.exports = {
   isValidSignUp,
   isValidLogin,
   isValidUser,
+  isValidFriendRequest,
 };
