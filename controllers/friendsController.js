@@ -62,8 +62,7 @@ exports.getFriends = async (req, res, next) => {
         order: [["updatedAt", "DESC"]],
       });
 
-      // Bad practice to get rid of dataValues xd
-      friendsPosts = JSON.parse(JSON.stringify(friendsPostsObj));
+      friendsPosts = friendsPostsObj.map((post) => post.get({ plain: true }));
     }
 
     res.render("posts", {
@@ -84,7 +83,7 @@ exports.getAddFriend = (req, res, next) => {
   res.render("friends/friend-request", { header: true, section: "Friends" });
 };
 
-// Send friendship request
+// Sends friendship request
 exports.postAddFriend = async (req, res, next) => {
   const username = req.body.username ? req.body.username : null;
 
@@ -128,7 +127,6 @@ exports.postDeleteFriend = async (req, res, next) => {
     });
 
     req.flash("success", "Friend deleted.");
-
     res.redirect("/friends");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);

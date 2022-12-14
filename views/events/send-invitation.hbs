@@ -1,0 +1,30 @@
+<section class="container">
+  <div class="card mt-3 mb-3">
+    <div class="card-header text-center">
+      <h5 class="mb-0">Send invitation</h5>
+    </div>
+    <div class="card-body">
+      <form action="/events/send-invitation" method="post" id="form-default">
+        <input name="_csrf" value="{{csrfToken}}" type="hidden" />
+        <input name="eventId" value="{{eventId}}" type="hidden" />
+        <div class="form-group mb-2">
+          <label for="username">Friend's username:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm required"
+            name="username"
+            id="username"
+          />
+        </div>
+        <div class="buttons-container">
+          <a href="/events" class="btn btn-sm btn-secondary">Go back</a>
+          <button
+            type="button"
+            id="btn-submit"
+            class="btn btn-sm btn-primary"
+          >Send invitation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

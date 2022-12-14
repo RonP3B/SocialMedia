@@ -17,8 +17,7 @@ exports.getHome = async (req, res, next) => {
       order: [["updatedAt", "DESC"]],
     });
 
-    // Bad practice to get rid of dataValues xd
-    const posts = JSON.parse(JSON.stringify(postsObj));
+    const posts = postsObj.map((post) => post.get({ plain: true }));
 
     res.render("posts", {
       header: true,
@@ -116,30 +115,30 @@ exports.editPost = async (req, res, next) => {
   const imgFile = req.file;
 
   try {
+    if (!id) {
+      req.flash("errors", "Form data missing.");
+      return res.redirect("back");
+    }
+
     const post = await Post.findByPk(id);
 
-    if (post && (postText || imgFile)) {
-      /* 
+    /* 
         If the post has an image and it will change for a new one, 
         the current image gets deleted from the server
       */
-      if (imgFile && imgFile.filename !== post.dataValues.postImage) {
-        fs.unlinkSync(
-          `./public/assets/images/uploadedImages/${post.dataValues.postImage}`
-        );
-      }
-
-      await post.update({
-        postText: postText ? postText : post.dataValues.postText,
-        postImage: imgFile ? imgFile.filename : post.dataValues.postImage,
-        dataTime: new Date().toLocaleString(),
-      });
-
-      req.flash("success", "Post edited.");
-    } else {
-      req.flash("errors", "Form data missing.");
+    if (imgFile && imgFile.filename !== post.dataValues.postImage) {
+      fs.unlinkSync(
+        `./public/assets/images/uploadedImages/${post.dataValues.postImage}`
+      );
     }
 
+    await post.update({
+      postText: postText ? postText : post.dataValues.postText,
+      postImage: imgFile ? imgFile.filename : post.dataValues.postImage,
+      dataTime: new Date().toLocaleString(),
+    });
+
+    req.flash("success", "Post edited.");
     res.redirect("/home");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);

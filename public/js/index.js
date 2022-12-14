@@ -7,6 +7,7 @@ import {
   validatePost,
   validateComment,
   showConfirmModal,
+  validateNewEvent,
 } from "./exports/exports.js";
 
 $(() => {
@@ -22,6 +23,8 @@ $(() => {
   $("#btn-signUp").click(() => isFormEmpty("#form-signup", validateSignUp));
 
   $("#btn-post").click(() => isFormEmpty("#form-post", validatePost));
+
+  $("#btn-date").click(() => isFormEmpty("#form-date", validateNewEvent));
 
   $("#add-image").change((e) => addImageForm(e));
 
@@ -46,6 +49,22 @@ $(() => {
       $(this),
       ".form-delete",
       "Are you sure you want to delete this friend?"
+    );
+  });
+
+  $(".btn-deleteInvitation").click(function () {
+    showConfirmModal(
+      $(this),
+      ".form-delete",
+      "Are you sure you want to delete this invitation?"
+    );
+  });
+
+  $(".btn-deleteEvent").click(function () {
+    showConfirmModal(
+      $(this),
+      ".form-delete",
+      "Are you sure you want to delete this event?"
     );
   });
 });

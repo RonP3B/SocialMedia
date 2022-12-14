@@ -4,6 +4,7 @@ import { addImageForm } from "../helpers/addImgForm.js";
 import { validatePost } from "../helpers/custom/validateNewPost.js";
 import { validateComment } from "../helpers/custom/validateComment.js";
 import { showConfirmModal } from "../helpers/modals/confirmModal.js";
+import { validateNewEvent } from "../helpers/custom/validateNewEvent.js";
 
 export {
   isFormEmpty,
@@ -11,5 +12,6 @@ export {
   addImageForm,
   validatePost,
   validateComment,
-  showConfirmModal
+  validateNewEvent,
+  showConfirmModal,
 };

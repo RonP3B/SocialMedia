@@ -23,6 +23,7 @@ const {
   friendsRouter,
   notificationsRouter,
   commentsRouter,
+  eventsRouter,
 } = require("./exports/routes");
 
 const {
@@ -38,6 +39,8 @@ const {
   FriendRequest,
   Comment,
   Reply,
+  Event,
+  EventRequest,
 } = require("./exports/models");
 
 // ---------------------------App----------------------
@@ -54,6 +57,7 @@ app.engine(
     helpers: {
       json: (obj) => JSON.stringify(obj),
       equal: (a, b) => a === b,
+      isEventOver: (date) => new Date(date) <= new Date(),
     },
   })
 );
@@ -75,30 +79,56 @@ app.use(authRouter);
 app.use("/home", redirects.isUnauthorized, homeRouter);
 app.use("/friends", redirects.isUnauthorized, friendsRouter);
 app.use("/notifications", redirects.isUnauthorized, notificationsRouter);
+app.use("/events", redirects.isUnauthorized, eventsRouter);
 app.use("/comments", redirects.isUnauthorized, commentsRouter);
 app.use(notFoundRouter);
 
 // ----------------------------Sequelize associations----------------------------
+
+// A user has many posts, a post belongs to a user
 User.hasMany(Post, { onDelete: "CASCADE" });
 Post.belongsTo(User, { constraint: true });
 
+// A user has many comments, a comment belongs to a user
 User.hasMany(Comment, { onDelete: "CASCADE" });
 Comment.belongsTo(User, { constraint: true });
 
+// A user has many replies, a reply belongs to a user
 User.hasMany(Reply, { onDelete: "CASCADE" });
 Reply.belongsTo(User, { constraint: true });
 
+// A user has many events, an event belongs to a user
+User.hasMany(Event, { onDelete: "CASCADE" });
+Event.belongsTo(User, { constraint: true });
+
+/* 
+  A user has many friend-requests, a friend-requests belongs to a user
+  through alias 'toUser' (user who receives the request)   
+*/
 User.hasMany(FriendRequest, { foreignKey: "toUserId", as: "to" });
 FriendRequest.belongsTo(User, { as: "toUser", foreignKey: "toUserId" });
 
+/* 
+  A user has many friend-requests, a friend-requests belongs to a user
+  through alias 'fromUser' (user who sends the request)   
+*/
 User.hasMany(FriendRequest, { foreignKey: "fromUserId", as: "from" });
 FriendRequest.belongsTo(User, { as: "fromUser", foreignKey: "fromUserId" });
 
+// A post has many comments, a comment belongs to a post
 Post.hasMany(Comment, { onDelete: "CASCADE" });
 Comment.belongsTo(Post, { constraint: true });
 
+// A comment has many replies, a reply belongs to a comment
 Comment.hasMany(Reply, { onDelete: "CASCADE" });
 Reply.belongsTo(Comment, { constraint: true });
+
+Event.hasMany(EventRequest, { onDelete: "CASCADE" });
+EventRequest.belongsTo(Event, { foreignKey: "eventId" });
+
+User.hasMany(EventRequest, { onDelete: "CASCADE" });
+EventRequest.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
+EventRequest.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
 
 // ----------------------------Sequelize hooks----------------------------
 User.afterCreate((user, options) => sendActivationMail(user));
