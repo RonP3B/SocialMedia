@@ -132,6 +132,12 @@ EventRequest.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
 // ----------------------------Sequelize hooks----------------------------
 User.afterCreate((user, options) => sendActivationMail(user));
 
+Post.afterUpdate(async (instance, options) => {
+  if (instance.changed("postText") || instance.changed("postImage")) {
+    instance.dataValues.dataTime = new Date().toLocaleString();
+  }
+});
+
 // ----------------------------Sequelize sync----------------------------
 databaseObj
   .sync()
