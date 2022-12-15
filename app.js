@@ -101,18 +101,8 @@ Reply.belongsTo(User, { constraint: true });
 User.hasMany(Event, { onDelete: "CASCADE" });
 Event.belongsTo(User, { constraint: true });
 
-/* 
-  A user has many friend-requests, a friend-requests belongs to a user
-  through alias 'toUser' (user who receives the request)   
-*/
-User.hasMany(FriendRequest, { foreignKey: "toUserId", as: "to" });
+User.hasMany(FriendRequest);
 FriendRequest.belongsTo(User, { as: "toUser", foreignKey: "toUserId" });
-
-/* 
-  A user has many friend-requests, a friend-requests belongs to a user
-  through alias 'fromUser' (user who sends the request)   
-*/
-User.hasMany(FriendRequest, { foreignKey: "fromUserId", as: "from" });
 FriendRequest.belongsTo(User, { as: "fromUser", foreignKey: "fromUserId" });
 
 // A post has many comments, a comment belongs to a post
@@ -123,10 +113,15 @@ Comment.belongsTo(Post, { constraint: true });
 Comment.hasMany(Reply, { onDelete: "CASCADE" });
 Reply.belongsTo(Comment, { constraint: true });
 
+// An event has many EventsRequest, an EventRequest belongs to an event
 Event.hasMany(EventRequest, { onDelete: "CASCADE" });
 EventRequest.belongsTo(Event, { foreignKey: "eventId" });
 
-User.hasMany(EventRequest, { onDelete: "CASCADE" });
+/* 
+  A user has many EventRequest, An EventRequest belongs to User through
+  toUserId (as toUser) and fromUserId (as fromUser) 
+ */
+User.hasMany(EventRequest);
 EventRequest.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
 EventRequest.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
 

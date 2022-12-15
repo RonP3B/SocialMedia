@@ -1,5 +1,9 @@
 // --------------------------imports--------------------------
-const { FriendRequest, User } = require("../../../exports/models");
+const {
+  FriendRequest,
+  User,
+  EventRequest,
+} = require("../../../exports/models");
 const { Op } = require("sequelize");
 const internalErrorRes = require("../internalErrorRes");
 
@@ -40,6 +44,18 @@ const isValidInvitation = async (req, res) => {
 
     if (!friend) {
       req.flash("errors", "The given user is not in your friends list.");
+      return;
+    }
+
+    const isAlreadyInvited = await EventRequest.findOne({
+      where: { eventId, toUserId: user.id, fromUserId: req.user.id },
+    });
+
+    if (isAlreadyInvited) {
+      req.flash(
+        "errors",
+        `You've already invited ${user.username} to this event.`
+      );
       return;
     }
 

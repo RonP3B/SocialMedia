@@ -9,19 +9,13 @@ const addReqNotifications = async (req, res, next) => {
   if (req.user) {
     try {
       // Gets all the currently logged-in user's pending friend requests
-      const pendingFriendRequests = await User.findAll({
-        include: [
-          {
-            model: FriendRequest,
-            as: "from",
-            where: { status: "pending", toUserId: req.user.id },
-            include: [{ model: User, as: "fromUser" }],
-          },
-        ],
+      const pendingFriendRequests = await FriendRequest.findAll({
+        where: { toUserId: req.user.id, status: "pending" },
+        include: { model: User, as: "fromUser" },
       });
 
       const userNotifications = pendingFriendRequests.map(
-        (friendReq) => friendReq.dataValues
+        (friendReq) => friendReq.dataValues.fromUser.dataValues
       );
 
       // Adds the notifications in the request

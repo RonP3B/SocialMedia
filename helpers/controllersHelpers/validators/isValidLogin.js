@@ -20,7 +20,7 @@ const isValidLogin = async (req, res) => {
 
     // If the user doesn't exist
     if (!user) {
-      req.flash("errors", "Incorrect username.");
+      req.flash("errors", "Incorrect credentials.");
       valid = false;
       return;
     }
@@ -29,7 +29,7 @@ const isValidLogin = async (req, res) => {
 
     // If the password is incorrect
     if (!passValid) {
-      req.flash("errors", "Incorrect password.");
+      req.flash("errors", "Incorrect credentials.");
       valid = false;
       return;
     }

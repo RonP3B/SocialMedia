@@ -24,8 +24,11 @@ exports.getActivation = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    await User.update({ isActive: 1 }, { where: { id } });
-    req.flash("success", `Your account is active now.`);
+    if (id) {
+      await User.update({ isActive: 1 }, { where: { id } });
+      req.flash("success", `Your account is active now.`);
+    }
+
     res.redirect("/");
   } catch (error) {
     console.log(`\n*****Error*****\n${error}\n`);

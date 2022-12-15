@@ -12,6 +12,7 @@ const locals = (req, res, next) => {
   res.locals.hasMessages = errors.length > 0 || success.length > 0;
   res.locals.logosObj = logosObj;
   res.locals.notificationsLength = notifications;
+  res.locals.user = req.user ? req.user.username : null;
 
   next();
 };

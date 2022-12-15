@@ -20,7 +20,7 @@ exports.getEvents = async (req, res, next) => {
     });
 
     // Gets all the event invitations where the currently
-    // logged-in user has been invitated
+    // logged-in user has been invited
     const eventsRes = await EventRequest.findAll({
       where: { toUserId: req.user.id },
       include: [
@@ -146,7 +146,7 @@ exports.postSendInvitation = async (req, res, next) => {
   try {
     /* 
       Checks if it's a valid invitation and returns the 
-      user that is going to be invitated
+      user that is going to be invited
     */
     const user = await isValidInvitation(req, res);
 
