@@ -101,6 +101,10 @@ Reply.belongsTo(User, { constraint: true });
 User.hasMany(Event, { onDelete: "CASCADE" });
 Event.belongsTo(User, { constraint: true });
 
+/* 
+  A user has many FriendRequest, A FriendRequest belongs to User through
+  toUserId (as toUser) and through fromUserId (as fromUser) 
+ */
 User.hasMany(FriendRequest);
 FriendRequest.belongsTo(User, { as: "toUser", foreignKey: "toUserId" });
 FriendRequest.belongsTo(User, { as: "fromUser", foreignKey: "fromUserId" });
@@ -119,7 +123,7 @@ EventRequest.belongsTo(Event, { foreignKey: "eventId" });
 
 /* 
   A user has many EventRequest, An EventRequest belongs to User through
-  toUserId (as toUser) and fromUserId (as fromUser) 
+  toUserId (as toUser) and through fromUserId (as fromUser) 
  */
 User.hasMany(EventRequest);
 EventRequest.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
