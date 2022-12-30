@@ -135,6 +135,7 @@ exports.editPost = async (req, res, next) => {
     await post.update({
       postText: postText ? postText : post.dataValues.postText,
       postImage: imgFile ? imgFile.filename : post.dataValues.postImage,
+      dataTime: new Date().toLocaleString(),
     });
 
     req.flash("success", "Post edited.");
