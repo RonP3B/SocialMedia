@@ -3,12 +3,7 @@ const { databaseObj } = require("../exports/util");
 
 const EventRequest = databaseObj.define("event_request", {
   status: {
-    type: Sequelize.ENUM(
-      "will attend",
-      "might attend",
-      "won't attend",
-      "no response"
-    ),
+    type: Sequelize.STRING,
     defaultValue: "no response",
     allowNull: false,
   },

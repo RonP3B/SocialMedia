@@ -3,7 +3,7 @@ const { databaseObj } = require("../exports/util");
 
 const FriendRequest = databaseObj.define("friend_request", {
   status: {
-    type: Sequelize.ENUM("pending", "accepted"),
+    type: Sequelize.STRING,
     defaultValue: "pending",
     allowNull: false,
   },

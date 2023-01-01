@@ -46,7 +46,7 @@ const User = databaseObj.define("user", {
 
   isActive: {
     type: Sequelize.BOOLEAN,
-    defaultValue: 0,
+    defaultValue: "0",
   },
 });
 

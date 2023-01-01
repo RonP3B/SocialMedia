@@ -90,7 +90,7 @@ exports.postAddFriend = async (req, res, next) => {
   try {
     // Gets the activated user account by username
     const user = await User.findOne({
-      where: { [Op.and]: [{ username: username }, { isActive: 1 }] },
+      where: { [Op.and]: [{ username: username }, { isActive: "1" }] },
     });
 
     // Ends the try-catch if it's not a valid friend request
