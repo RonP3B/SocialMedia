@@ -8,6 +8,7 @@ import {
   validateComment,
   showConfirmModal,
   validateNewEvent,
+  validateResetPassword,
 } from "./exports/exports.js";
 
 $(() => {
@@ -25,6 +26,8 @@ $(() => {
   $("#btn-post").click(() => isFormEmpty("#form-post", validatePost));
 
   $("#btn-date").click(() => isFormEmpty("#form-date", validateNewEvent));
+
+  $("#btn-resetPass").click(() => isFormEmpty("#form-reset", validateResetPassword));
 
   $("#add-image").change((e) => addImageForm(e));
 

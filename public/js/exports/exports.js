@@ -5,6 +5,7 @@ import { validatePost } from "../helpers/custom/validateNewPost.js";
 import { validateComment } from "../helpers/custom/validateComment.js";
 import { showConfirmModal } from "../helpers/modals/confirmModal.js";
 import { validateNewEvent } from "../helpers/custom/validateNewEvent.js";
+import { validateResetPassword } from "../helpers/custom/validateResetPassword.js"
 
 export {
   isFormEmpty,
@@ -14,4 +15,5 @@ export {
   validateComment,
   validateNewEvent,
   showConfirmModal,
+  validateResetPassword
 };
