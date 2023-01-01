@@ -6,13 +6,13 @@ const express = require("express");
 const { engine } = require("express-handlebars");
 const multer = require("multer");
 const session = require("express-session");
+const SessionStore = require("express-session-sequelize")(session.Store);
 const flash = require("connect-flash");
 const csrf = require("csurf");
 const csrfProtection = csrf();
 const path = require("path");
 
 // -------------------Server files---------------------------
-const { sendActivationMail } = require("./exports/helpers");
 const redirects = require("./middlewares/redirects");
 const { imgStorage, databaseObj } = require("./exports/util");
 
@@ -68,7 +68,10 @@ app.set("views", "views");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(multer({ storage: imgStorage }).single("image"));
-app.use(session({ secret: "secret", resave: true, saveUninitialized: false }));
+app.use(session({
+  secret: "secret", resave: true, saveUninitialized: false,
+  store: new SessionStore({ db: databaseObj })
+}));
 app.use(flash());
 app.use(csrfProtection);
 app.use(cacheConfig);
@@ -128,9 +131,6 @@ EventRequest.belongsTo(Event, { foreignKey: "eventId" });
 User.hasMany(EventRequest);
 EventRequest.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
 EventRequest.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
-
-// ----------------------------Sequelize hooks----------------------------
-User.afterCreate((user, options) => sendActivationMail(user));
 
 // ----------------------------Sequelize sync----------------------------
 databaseObj
