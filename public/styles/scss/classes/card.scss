@@ -11,9 +11,10 @@
     align-items: center;
 
     img {
-      height: calc(4.5rem + 0.390625vw);
-      width: calc(4.5rem + 0.390625vw);
+      height: calc(3.5rem + 0.390625vw);
+      width: calc(3.5rem + 0.390625vw);
       border-radius: 50%;
+      border: solid 1px rgba(219, 213, 219, 0.8);
     }
 
     picture {

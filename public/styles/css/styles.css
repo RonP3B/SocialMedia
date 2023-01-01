@@ -89,9 +89,10 @@ body {
   align-items: center;
 }
 .card .post-header img {
-  height: calc(4.5rem + 0.390625vw);
-  width: calc(4.5rem + 0.390625vw);
+  height: calc(3.5rem + 0.390625vw);
+  width: calc(3.5rem + 0.390625vw);
   border-radius: 50%;
+  border: solid 1px rgba(219, 213, 219, 0.8);
 }
 .card .post-header picture {
   margin-right: 0.35rem;
@@ -102,7 +103,7 @@ body {
 }
 .card .post-header small {
   font-size: calc(10px + 0.390625vw);
-  color: #afaeae;
+  color: rgb(175, 174, 174);
 }
 .card .post-body img {
   display: block;
