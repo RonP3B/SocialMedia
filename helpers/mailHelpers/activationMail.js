@@ -1,14 +1,14 @@
 const transporter = require("../../util/transporter");
 
-const sendActivationMail = (user) => {
+const sendActivationMail = (id, name, email, req) => {
   transporter.sendMail(
     {
       from: "Social Media APP",
-      to: user.email,
+      to: email,
       subject: "Activate your account",
-      html: `${user.name} your account has been successfully created,
+      html: `${name} your account has been successfully created,
        click on the following link to activate your account:<br><br> 
-        <a href="http://localhost:5000/activation/${user.id}">
+        <a href="${req.protocol}://${req.get('host')}/activation/${id}">
         click here to activate your account
       </a>`,
     },

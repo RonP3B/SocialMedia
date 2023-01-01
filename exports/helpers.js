@@ -1,5 +1,5 @@
 const sendActivationMail = require("../helpers/mailHelpers/activationMail");
-const sendResetPassMail = require("../helpers/mailHelpers/resetPassMail");
+const sendConfirmCode = require("../helpers/mailHelpers/resetPassMail");
 const isValidSignUp = require("../helpers/controllersHelpers/validators/isValidSignUp");
 const internalErrorRes = require("../helpers/controllersHelpers/internalErrorRes");
 const isValidLogin = require("../helpers/controllersHelpers/validators/isValidLogin");
@@ -11,7 +11,7 @@ const isValidInvitation = require("../helpers/controllersHelpers/validators/isVa
 module.exports = {
   internalErrorRes,
   sendActivationMail,
-  sendResetPassMail,
+  sendConfirmCode,
   isValidSignUp,
   isValidLogin,
   isValidUser,

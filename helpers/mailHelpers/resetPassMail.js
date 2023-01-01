@@ -1,14 +1,12 @@
 const transporter = require("../../util/transporter");
 
-const sendResetPassMail = (user, newPassword) => {
+const sendConfirmCode = (user, code) => {
   transporter.sendMail(
     {
-      from: "SocialMediaAPP",
+      from: "SocialMedia",
       to: user.email,
-      subject: "New password",
-      html: `${user.name}, since you have forgotten your password,
-       we generated a new one for you.<br> <br> 
-       <strong>Here is your new password:</strong> ${newPassword}`,
+      subject: "Confirm code",
+      html: `Confirm code: <strong>${code}<strong>`,
     },
     (err) => {
       if (err) console.log(`Error: ${err}`);
@@ -16,4 +14,4 @@ const sendResetPassMail = (user, newPassword) => {
   );
 };
 
-module.exports = sendResetPassMail;
+module.exports = sendConfirmCode;

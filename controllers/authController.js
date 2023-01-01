@@ -6,8 +6,9 @@ const {
   isValidSignUp,
   isValidLogin,
   internalErrorRes,
-  sendResetPassMail,
   isValidUser,
+  sendConfirmCode,
+  sendActivationMail
 } = require("../exports/helpers");
 
 // ----------------------------Controllers----------------------------
@@ -15,9 +16,19 @@ exports.getLogIn = (req, res, next) => res.render("auth/log-in");
 
 exports.getSignUp = (req, res, next) => res.render("auth/sign-up");
 
+exports.getFindUser = (req, res, next) => {
+  res.render("auth/reset-password", { findUser: true });
+}
+
+exports.getConfirmCode = (req, res, next) => {
+  if (!req.session.userRecovery) return res.redirect("back");
+  res.render("auth/reset-password", { confirmCode: true });
+}
+
 exports.getResetPassword = (req, res, next) => {
-  res.render("auth/reset-password");
-};
+  if (!req.session.userRecovery) return res.redirect("back");
+  res.render("auth/reset-password", { resetPass: true });
+}
 
 // Activates user whith given id
 exports.getActivation = async (req, res, next) => {
@@ -25,7 +36,7 @@ exports.getActivation = async (req, res, next) => {
 
   try {
     if (id) {
-      await User.update({ isActive: 1 }, { where: { id } });
+      await User.update({ isActive: "1" }, { where: { id } });
       req.flash("success", `Your account is active now.`);
     }
 
@@ -63,10 +74,11 @@ exports.postSignUp = async (req, res, next) => {
   const { name, lastName, phone, email, username, password } = req.body;
   const profilePicture = req.file.filename;
   const securedPassword = await bcrypt.hash(password, 12);
+  const id = crypto.randomUUID();
 
   try {
     await User.create({
-      id: crypto.randomUUID(),
+      id,
       name,
       lastName,
       phone,
@@ -76,6 +88,7 @@ exports.postSignUp = async (req, res, next) => {
       profilePicture,
     });
 
+    sendActivationMail(id, name, email, req);
     req.flash("success", "The account has been successfully created.");
     res.redirect("/");
   } catch (error) {
@@ -84,39 +97,63 @@ exports.postSignUp = async (req, res, next) => {
   }
 };
 
-// Resets the password of the given username
-exports.postResetPassword = async (req, res, next) => {
-  const username = req.body.username ? req.body.username : null;
-
+exports.postFindUser = async (req, res, next) => {
   try {
+    const username = req.body.username;
+
     const user = await User.findOne({ where: { username } });
 
-    // Ends the try-catch if it's not a valid user
-    if (!isValidUser(req, user)) return res.redirect("/reset-password");
+    if (!isValidUser(req, user)) return res.redirect("back");
 
-    // Create the user's id + a random id as new password
-    const newPassword = `${user.id}${crypto.randomUUID()}`;
-    const newPasswordSecured = await bcrypt.hash(newPassword, 12);
+    const confirmCode = crypto.randomBytes(7).toString('hex');
 
-    await User.update(
-      { password: newPasswordSecured },
-      { where: { username } }
-    );
+    req.session.confirmCode = confirmCode;
+    req.session.userRecovery = user;
 
-    // Send an email to the user with his new password
-    sendResetPassMail(user, newPassword);
+    sendConfirmCode(user, confirmCode);
 
-    req.flash(
-      "success",
-      "Your password was reset, and we've sent you an email with your new password."
-    );
+    req.flash("success", "The code was sent to the user's email.");
+    res.redirect("/forgot-password/confirm-code");
+  } catch (error) {
+    console.log(`\nError: ${error}\n`);
+    internalErrorRes(res);
+  }
+}
+
+exports.postConfirmCode = (req, res, next) => {
+  if (!req.body.code) return res.redirect("back")
+
+  if (req.session.confirmCode !== req.body.code) return res.redirect("back");
+
+  delete req.session.confirmCode;
+
+  res.redirect("/forgot-password/reset-password")
+}
+
+exports.postResetPassword = async (req, res, next) => {
+  try {
+    const { password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      req.flash("errors", "Passwords do not match.");
+      return res.redirect("back");
+    }
+
+    const user = await User.findByPk(req.session.userRecovery.id);
+    const securedPassword = await bcrypt.hash(password, 12);
+
+    await user.update({ password: securedPassword });
+
+    req.flash("success", "Your password has been changed successfully.");
+
+    delete req.session.userRecovery;
 
     res.redirect("/");
   } catch (error) {
-    console.log(`\n*****Error*****\n${error}\n`);
+    console.log(`\nError: ${error}\n`);
     internalErrorRes(res);
   }
-};
+}
 
 exports.getLogout = (req, res, next) => {
   req.session.destroy((err) => {
